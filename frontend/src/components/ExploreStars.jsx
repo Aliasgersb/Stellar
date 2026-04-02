@@ -103,8 +103,8 @@ export default function ExploreStars() {
 
   // ── fetch star list ──────────────────────────────────────────────────────────
   useEffect(() => {
-    // Increased timeout to 60000ms (60s) to allow Render free tier to wake up from sleep
-    axios.get(`${API_BASE}/stars`, { timeout: 60000 })
+    // Fetch the 15KB static dataset registry instead of waiting for a backend to boot 
+    axios.get(`/data/stars.json`, { timeout: 10000 })
       .then(res => {
         setStars(res.data);
         setLoadingList(false);
@@ -124,7 +124,8 @@ export default function ExploreStars() {
     setStarError(false);
     setLoadingStar(true);
 
-    axios.get(`${API_BASE}/star/${selectedIdx}`, { timeout: 15000 })
+    // Fetch individual ~40KB static JSON payload instantly
+    axios.get(`/data/star_${selectedIdx}.json`, { timeout: 8000 })
       .then(res => {
         setStarData(res.data);
         setLoadingStar(false);

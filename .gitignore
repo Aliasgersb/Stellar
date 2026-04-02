@@ -21,6 +21,14 @@ y_train*
 # Other model checkpoints (Keep only the stable cnn_model.h5)
 cnn_model*.keras
 
+# Large numpy arrays no longer needed at runtime
+# (data is pre-exported to frontend/public/data/*.json)
+X_test_norm.npy
+X_test_slow_folded.npy
+
+# Temporary scripts
+install.log
+
 # OS Files
 .DS_Store
 Thumbs.db
