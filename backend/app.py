@@ -26,6 +26,12 @@ df_test["true_label"] = (df_test["LABEL"] == 2).astype(int)
 flux_cols = [c for c in df_test.columns if c.startswith("FLUX.")]
 X_test_raw = df_test[flux_cols].values.astype(np.float32)  # (570, 3197)
 
+# MEMORY OPTIMISATION: Drop flux columns from DataFrame once they are in the array
+# This saves ~30MB of RAM.
+df_test.drop(columns=flux_cols, inplace=True)
+import gc
+gc.collect()
+
 print("Loading X_test_folded.npy …", flush=True)
 X_test_folded = np.load(FOLDED_NPY).astype(np.float32)     # (570, 200)
 
