@@ -10,10 +10,10 @@ export default function ModelPerformance({ onNavigate }) {
 
   const comparison = [
     { version: 'Random Forest',   data: 'Raw flux',             arch: '100 decision trees', result: '0 / 5 planets — Recall 0.00', selected: false },
-    { version: 'CNN v1',          data: 'Raw flux',             arch: '2-layer CNN',        result: '2 / 5 planets — Recall 0.40', selected: true  },
+    { version: 'CNN v1',          data: 'Raw flux',             arch: '2-layer CNN',        result: '2 / 5 planets — Recall 0.40 — 3 false positives', selected: true  },
     { version: 'CNN v2',          data: 'BLS phase folded',     arch: '3-layer CNN',        result: '1 / 5 planets — Recall 0.20', selected: false },
     { version: 'CNN v3',          data: 'Custom phase folded',  arch: '3-layer CNN',        result: '1 / 5 planets — Recall 0.20', selected: false },
-    { version: 'CNN v4',          data: 'Custom phase folded',  arch: '2-layer CNN',        result: '2 / 5 planets — 6 false alarms', selected: false },
+    { version: 'CNN v4',          data: 'Custom phase folded',  arch: '2-layer CNN',        result: '2 / 5 planets — Recall 0.40 — 6 false positives', selected: false },
   ];
 
   return (
@@ -26,23 +26,37 @@ export default function ModelPerformance({ onNavigate }) {
         {/* Confusion Matrix */}
         <div>
           <p className="text-xs uppercase tracking-[0.2em] text-gray-500 mb-6">CNN v1 — Confusion Matrix</p>
-          <div className="grid grid-cols-2 gap-px bg-border border border-border">
-            {matrix.map((cell) => (
-              <div
-                key={cell.pos}
-                className={`p-8 ${cell.prominent ? 'bg-[#0F0F00]' : 'bg-dark'}`}
-              >
-                <div className={`text-4xl font-bold mb-2 ${cell.prominent ? 'text-accent' : 'text-white'}`}>
-                  {cell.value}
+
+          {/* Matrix with row labels on the left */}
+          <div className="flex items-stretch gap-3">
+
+            {/* Row axis labels */}
+            <div className="flex flex-col justify-around text-[10px] text-gray-600 uppercase tracking-widest text-right leading-tight">
+              <span>Actual:<br/>Non-Planet</span>
+              <span>Actual:<br/>Planet</span>
+            </div>
+
+            {/* Grid */}
+            <div className="flex-1 grid grid-cols-2 gap-px bg-border border border-border">
+              {matrix.map((cell) => (
+                <div
+                  key={cell.pos}
+                  className={`p-8 ${cell.prominent ? 'bg-[#0F0F00]' : 'bg-dark'}`}
+                >
+                  <div className={`text-4xl font-bold mb-2 ${cell.prominent ? 'text-accent' : 'text-white'}`}>
+                    {cell.value}
+                  </div>
+                  <div className={`text-xs font-semibold uppercase tracking-widest mb-1 ${cell.prominent ? 'text-accent' : 'text-gray-400'}`}>
+                    {cell.label}
+                  </div>
+                  <div className="text-xs text-gray-600 leading-relaxed">{cell.desc}</div>
                 </div>
-                <div className={`text-xs font-semibold uppercase tracking-widest mb-1 ${cell.prominent ? 'text-accent' : 'text-gray-400'}`}>
-                  {cell.label}
-                </div>
-                <div className="text-xs text-gray-600 leading-relaxed">{cell.desc}</div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-          <div className="grid grid-cols-2 mt-2 text-center gap-px">
+
+          {/* Column axis labels */}
+          <div className="grid grid-cols-2 mt-2 text-center gap-px ml-14">
             <div className="text-[10px] text-gray-600 uppercase tracking-widest py-1">Predicted: Non-Planet</div>
             <div className="text-[10px] text-gray-600 uppercase tracking-widest py-1">Predicted: Planet</div>
           </div>
@@ -56,7 +70,7 @@ export default function ModelPerformance({ onNavigate }) {
             {[
               { name: 'Recall',    value: '0.40', note: 'Found 40% of all real planets' },
               { name: 'Precision', value: '0.40', note: 'When it said planet, it was right 40% of the time' },
-              { name: 'F1 Score',  value: '0.40', note: '' },
+              { name: 'F1 Score',  value: '0.40', note: 'Harmonic mean of Precision and Recall — balances both into a single score' },
             ].map(m => (
               <div key={m.name} className="border-b border-border pb-6">
                 <div className="flex justify-between items-baseline mb-1">
@@ -113,9 +127,11 @@ export default function ModelPerformance({ onNavigate }) {
       <div className="border-t border-border pt-10 max-w-2xl text-sm leading-relaxed">
         <h4 className="text-white font-semibold mb-3">Why was CNN v1 selected?</h4>
         <p className="text-gray-500">
-          Despite experimenting with complex phase-folding techniques and deeper architectures, CNN v1 offered the
-          highest recall on this dataset. It correctly identified more true planets than any other version without
-          introducing excessive false positives.
+          CNN v4 achieved the same recall (2 / 5 planets, Recall 0.40) as CNN v1 — but produced
+          <strong className="text-gray-300"> 6 false positives</strong> compared to CNN v1's
+          <strong className="text-gray-300"> 3</strong>. Identical planet detection at double the false alarm
+          rate makes CNN v4 the inferior choice. CNN v1 delivers the best recall of all five models
+          while maintaining the fewest false positives of any model that actually detected planets.
         </p>
         <button
           onClick={() => onNavigate('how', 'why-cnn-v1')}

@@ -218,8 +218,8 @@ export default function ExploreStars() {
           {/* List */}
           {apiError ? (
             <div className="text-sm text-gray-600 leading-relaxed">
-              Backend not connected.<br />
-              Start the Flask server to explore stars and run predictions.
+              Failed to load dataset.<br />
+              Please refresh the page.
             </div>
           ) : loadingList ? (
             <div className="text-sm text-gray-600">Loading dataset…</div>
@@ -248,7 +248,7 @@ export default function ExploreStars() {
             </div>
           ) : starError ? (
             <div className="flex h-64 items-center justify-center text-gray-600 border border-border text-sm">
-              Failed to load data for Star {selectedIdx}. Check backend connection.
+              Failed to load data for Star {selectedIdx}. Please refresh the page.
             </div>
           ) : starData ? (
             <div className="space-y-10">
@@ -319,10 +319,13 @@ export default function ExploreStars() {
                 >
                   {modelRunning ? 'Analysing…' : 'Analyse This Star'}
                 </button>
+                <p className="text-[10px] text-gray-600 mt-2">
+                  Runs the trained 1D CNN locally in your browser via WebAssembly — no server required.
+                </p>
 
                 {modelError && (
                   <p className="mt-6 text-sm text-gray-600">
-                    Prediction failed. Check that the Flask server is running and the model is loaded.
+                    Inference failed. The model file may still be loading — please try again in a moment.
                   </p>
                 )}
 

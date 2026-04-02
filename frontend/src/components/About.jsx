@@ -19,24 +19,64 @@ export default function About() {
         The answer, at least in the Kepler data, is yes. Two of them, confirmed.
       </p>
 
-      <div className="border-t border-border pt-10 space-y-4">
-        <div className="flex gap-8 text-sm">
-          <span className="text-gray-600 w-20">Contact</span>
-          <a
-            href="mailto:aliasgersb@gmail.com"
-            className="text-gray-300 hover:text-accent transition-colors"
-          >
-            aliasgersb@gmail.com
-          </a>
+      <div className="border-t border-border pt-10 flex flex-col gap-12">
+
+        {/* Profile */}
+        <div>
+          <p className="text-xs uppercase tracking-[0.2em] text-gray-500 mb-6">Profile</p>
+          <div className="space-y-4">
+            {[
+              {
+                label: 'Contact',
+                content: <a href="mailto:aliasgersb@gmail.com" className="text-gray-300 hover:text-accent transition-colors">aliasgersb@gmail.com</a>,
+              },
+              {
+                label: 'Institution',
+                content: <span className="text-gray-400">BITS Pilani</span>,
+              },
+              {
+                label: 'LinkedIn',
+                content: <a href="https://www.linkedin.com/in/aliasger-bhabhrawala" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-accent transition-colors">aliasger-bhabhrawala ↗</a>,
+              },
+              {
+                label: 'GitHub',
+                content: <a href="https://github.com/Aliasgersb/Stellar" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-accent transition-colors">Aliasgersb/Stellar ↗</a>,
+              },
+            ].map(({ label, content }) => (
+              <div key={label} className="flex gap-8 text-sm">
+                <span className="text-gray-600 w-28 shrink-0">{label}</span>
+                {content}
+              </div>
+            ))}
+          </div>
         </div>
-        <div className="flex gap-8 text-sm">
-          <span className="text-gray-600 w-20">Institution</span>
-          <span className="text-gray-400">BITS Pilani</span>
+
+        {/* Project Details */}
+        <div>
+          <p className="text-xs uppercase tracking-[0.2em] text-gray-500 mb-6">Project Details</p>
+          <div className="space-y-4">
+            {[
+              {
+                label: 'Built with',
+                content: <span className="text-gray-500">Python · TensorFlow/Keras · ONNX · React · Vite · Vercel</span>,
+              },
+              {
+                label: 'Dataset',
+                content: <a href="https://www.kaggle.com/datasets/keplersmachines/kepler-labelled-time-series-data" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-accent transition-colors">NASA Kepler Labeled Time Series (Kaggle) ↗</a>,
+              },
+              {
+                label: 'Research Files',
+                content: <a href="https://drive.google.com/drive/folders/1tGs-ZiNkPQQ-GACaFslbuIcJZjXpBZdl?usp=sharing" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-accent transition-colors">Colab notebooks, models &amp; datasets (Google Drive) ↗</a>,
+              },
+            ].map(({ label, content }) => (
+              <div key={label} className="flex gap-8 text-sm">
+                <span className="text-gray-600 w-28 shrink-0">{label}</span>
+                {content}
+              </div>
+            ))}
+          </div>
         </div>
-        <div className="flex gap-8 text-sm">
-          <span className="text-gray-600 w-20">Dataset</span>
-          <span className="text-gray-400">NASA Kepler Labeled Time Series (Kaggle)</span>
-        </div>
+
       </div>
     </div>
   );

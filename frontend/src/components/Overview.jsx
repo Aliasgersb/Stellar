@@ -2,10 +2,12 @@ import React from 'react';
 
 export default function Overview({ onNavigateToExplore }) {
   const stats = [
-    { value: '570', label: 'Stars analyzed from Kepler test dataset' },
-    { value: '5', label: 'Confirmed planet hosts in test dataset' },
-    { value: '2', label: 'Planets successfully detected by the model' },
-    { value: '0.40', label: 'Recall score achieved' },
+    { value: '5,087', label: 'Stars in training set — only 37 confirmed planet hosts (0.73%)' },
+    { value: '570',   label: 'Stars in Kepler test dataset' },
+    { value: '5',     label: 'NASA-confirmed planet hosts in test dataset' },
+    { value: '2',     label: 'Planets successfully detected by the model' },
+    { value: '0.40',  label: 'Recall achieved — versus 0.00 for a naive baseline' },
+    { value: '4 CNNs + RF', label: 'Architectures trained and compared to find the best model' },
   ];
 
   return (
@@ -19,11 +21,11 @@ export default function Overview({ onNavigateToExplore }) {
       </h1>
 
       <p className="text-gray-400 text-lg leading-[1.8] mb-16 max-w-2xl">
-        This application uses a Convolutional Neural Network trained on real NASA Kepler Space
-        Telescope data to detect exoplanets — planets orbiting stars outside our solar system.
-        The model analyzes light curves, brightness measurements of stars taken over time, and
-        identifies the tiny periodic dips in brightness caused when a planet passes in front of
-        its star.
+        This application uses the best-performing model selected from five trained architectures
+        — including a Random Forest and four 1D Convolutional Neural Networks — all trained on
+        real NASA Kepler Space Telescope data to detect exoplanets. The model analyzes light
+        curves, brightness measurements of stars taken over time, and identifies the tiny periodic
+        dips in brightness caused when a planet passes in front of its star.
       </p>
 
       <div className="grid grid-cols-2 gap-px border border-border bg-border mb-16">

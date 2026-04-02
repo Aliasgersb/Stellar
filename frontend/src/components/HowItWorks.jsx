@@ -77,7 +77,7 @@ const CNNArchitecture = () => (
         <div className="text-[10px] text-gray-500">(3197, 1)</div>
       </div>
     </div>
-    
+
     <div className="h-6 w-px md:w-6 md:h-px bg-border flex-shrink-0 relative">
       <div className="hidden md:block absolute right-0 top-[-3px] w-2 h-2 border-t border-r border-border transform rotate-45"></div>
       <div className="md:hidden absolute bottom-0 left-[-3px] w-2 h-2 border-b border-r border-border transform rotate-45"></div>
@@ -93,7 +93,7 @@ const CNNArchitecture = () => (
         MaxPool1D
       </div>
     </div>
-    
+
     <div className="h-6 w-px md:w-6 md:h-px bg-border flex-shrink-0 relative">
       <div className="hidden md:block absolute right-0 top-[-3px] w-2 h-2 border-t border-r border-border transform rotate-45"></div>
       <div className="md:hidden absolute bottom-0 left-[-3px] w-2 h-2 border-b border-r border-border transform rotate-45"></div>
@@ -107,6 +107,10 @@ const CNNArchitecture = () => (
       </div>
       <div className="px-4 py-2 border border-border/50 bg-dark text-gray-400 w-32 text-center text-[10px] rounded-sm">
         MaxPool1D
+      </div>
+      <div className="px-4 py-2 border border-border/50 bg-dark text-gray-500 w-32 text-center text-[10px] rounded-sm border-dashed">
+        Dropout
+        <div className="text-[10px] text-gray-600">rate: 0.5</div>
       </div>
     </div>
 
@@ -145,28 +149,60 @@ const CompareTable = () => (
 );
 
 const PhaseFoldingDiagram = () => (
-  <div className="w-full max-w-sm flex flex-col items-center gap-5 py-4 min-w-[280px]">
-    <div className="w-full border border-border p-4 relative bg-[#0A0A0A] rounded-sm">
-      <div className="absolute top-2 left-3 text-[9px] uppercase tracking-widest text-gray-500">Raw Time Series</div>
-      <svg viewBox="0 0 300 40" className="w-full mt-4">
-        <path d="M 0 20 L 50 18 L 60 30 L 70 21 L 120 19 L 130 31 L 140 18 L 200 22 L 210 32 L 220 20 L 300 19" fill="none" stroke="#6B7280" strokeWidth="1"/>
+  <div className="w-full max-w-sm flex flex-col items-center gap-5 py-6 min-w-[280px]">
+    
+    {/* Raw Time Series */}
+    <div className="w-full border border-border p-5 relative bg-[#0A0A0A] rounded-sm">
+      <div className="absolute top-3 left-4 text-[9px] uppercase tracking-widest text-gray-500 font-medium">Raw Time Series</div>
+      <svg viewBox="0 0 300 40" className="w-full mt-6">
+        {/* Subtle grid line */}
+        <line x1="0" y1="20" x2="300" y2="20" stroke="#1A1A1A" strokeWidth="1" strokeDasharray="2 2" />
+        {/* Stylized realistic light curve */}
+        <path 
+          d="M 0 20 L 15 19 L 30 21 L 40 19 L 45 20 L 52 35 L 58 35 L 65 20 L 80 21 L 95 19 L 110 20 L 125 19 L 132 20 L 139 35 L 145 35 L 152 20 L 165 21 L 180 19 L 195 20 L 210 20 L 218 19 L 225 20 L 232 35 L 238 35 L 245 20 L 260 21 L 275 19 L 290 20 L 300 19" 
+          fill="none" 
+          stroke="#6B7280" 
+          strokeWidth="1.5"
+          strokeLinejoin="round"
+          strokeLinecap="round"
+        />
       </svg>
     </div>
     
-    <div className="flex flex-col items-center justify-center gap-1 text-gray-500">
-      <div className="h-3 w-px bg-border"></div>
-      <div className="text-[10px] uppercase tracking-widest bg-[#0A0A0A] z-10">Fold on Orbital Period</div>
-      <div className="h-3 w-px bg-border relative">
+    {/* Connector */}
+    <div className="flex flex-col items-center justify-center gap-1.5 text-gray-500">
+      <div className="h-4 w-px bg-border"></div>
+      <div className="text-[10px] uppercase tracking-widest bg-[#0A0A0A] z-10 px-2 font-medium">Fold on Orbital Period</div>
+      <div className="h-4 w-px bg-border relative">
         <div className="absolute bottom-0 left-[-3px] w-2 h-2 border-b border-r border-border transform rotate-45"></div>
       </div>
     </div>
     
-    <div className="w-full border border-accent/20 bg-[#120F08] p-4 relative rounded-sm">
-     <div className="absolute top-2 left-3 text-[9px] uppercase tracking-widest text-accent">Phase Folded Curve</div>
-      <svg viewBox="0 0 300 50" className="w-full mt-4 bg-transparent">
-        <path d="M 0 25 L 120 25 L 135 40 L 165 40 L 180 25 L 300 25" fill="none" stroke="#E8A838" strokeWidth="2"/>
-        <path d="M 0 20 L 300 20" fill="none" stroke="#E8A838" strokeWidth="1" strokeDasharray="2 2" opacity="0.1"/>
-        <path d="M 0 30 L 300 30" fill="none" stroke="#E8A838" strokeWidth="1" strokeDasharray="2 2" opacity="0.1"/>
+    {/* Phase Folded Curve */}
+    <div className="w-full border border-accent/20 bg-[#120F08] p-5 relative rounded-sm shadow-[0_0_15px_rgba(232,168,56,0.03)]">
+     <div className="absolute top-3 left-4 text-[9px] uppercase tracking-widest text-accent font-medium">Phase Folded Curve</div>
+      <svg viewBox="0 0 300 50" className="w-full mt-6 bg-transparent">
+        {/* Baseline & Trough guidelines */}
+        <line x1="0" y1="20" x2="300" y2="20" stroke="#E8A838" strokeWidth="1" strokeDasharray="2 2" opacity="0.15" />
+        <line x1="0" y1="40" x2="300" y2="40" stroke="#E8A838" strokeWidth="1" strokeDasharray="2 2" opacity="0.15" />
+        
+        {/* Ambient Glow */}
+        <path 
+          d="M 0 20 L 110 20 L 130 40 L 170 40 L 190 20 L 300 20" 
+          fill="none" 
+          stroke="#E8A838" 
+          strokeWidth="6" 
+          opacity="0.15"
+          strokeLinejoin="round"
+        />
+        {/* Crisp Main Curve */}
+        <path 
+          d="M 0 20 L 110 20 L 130 40 L 170 40 L 190 20 L 300 20" 
+          fill="none" 
+          stroke="#E8A838" 
+          strokeWidth="2" 
+          strokeLinejoin="round"
+        />
       </svg>
     </div>
   </div>
@@ -303,26 +339,90 @@ export default function HowItWorks() {
           average. The transit signal — which appears at the same phase every orbit — grows
           stronger with each orbit stacked. A light curve that showed a noisy, hard-to-see dip
           is transformed into a clean 200-bin curve with a single unmistakable trough where the
-          planet transit occurs. The lightkurve library's Box Least Squares algorithm was used
-          to estimate the best orbital period for each star.
+          planet transit occurs. The lightkurve library's Box Least Squares (BLS) algorithm was
+          used to estimate the best orbital period for each star.
+        </p>
+        <p>
+          Phase folding was used as the input preprocessing stage for CNN v2 (BLS period
+          estimation), CNN v3, and CNN v4 (custom period estimation). Each of these models
+          received a 200-bin folded curve as input rather than the raw 3,197-point sequence.
+          Understanding how this choice affected their results is covered in the next section.
         </p>
       </Section>
 
-      <Section title={<span id="why-cnn-v1">Why CNN v1 was chosen for this application</span>}>
+      <Section title={<span id="why-cnn-v1">Why CNN v1 was chosen — the full experiment</span>}>
         <p>
-          Four CNN architectures were trained across different data preparation approaches.
-          CNN v2 trained on BLS phase-folded data used a deeper 3-layer architecture and
-          achieved perfect precision — when it called something a planet, it was never wrong —
-          but found only 1 of 5 planets. CNN v3 and v4 used a slower custom phase-folding
-          approach with comparable results. None exceeded 2 correctly identified planets.
+          Four CNN architectures were trained across different data preparation strategies and
+          evaluated on the same 570-star test set. Here is what each one taught us, and why
+          the results came out the way they did.
+        </p>
+
+        <div className="border-l-2 border-border pl-5 space-y-6 my-2">
+
+          <div>
+            <p className="text-white text-sm font-semibold mb-1">CNN v2 — BLS phase folded, 3-layer &nbsp;<span className="text-gray-600 font-normal text-xs">Result: 1 / 5 planets</span></p>
+            <p>
+              Phase folding is theoretically superior because it amplifies the transit signal.
+              But it requires knowing the planet's orbital period first. The BLS algorithm
+              estimates this period from noisy data — and when that estimate is even slightly
+              wrong, folding smears and destroys the transit trough instead of sharpening it.
+              On real Kepler data with few visible transits per star, period estimation errors
+              are common. Additionally, the 3-layer architecture increased the model's capacity,
+              but with only 37 real planet examples to train on, more capacity means more
+              overfitting to noise, not better generalisation.
+            </p>
+          </div>
+
+          <div>
+            <p className="text-white text-sm font-semibold mb-1">CNN v3 — Custom phase folded, 3-layer &nbsp;<span className="text-gray-600 font-normal text-xs">Result: 1 / 5 planets</span></p>
+            <p>
+              CNN v3 replaced the BLS period estimator with a custom algorithm. The hypothesis
+              was that a slower but more careful search would produce better period estimates.
+              In practice, the result was the same: 1 of 5 planets detected. The same two
+              failure modes applied — period estimation errors corrupting the phase-folded
+              input and a 3-layer architecture overfitting to the imbalanced signal.
+            </p>
+          </div>
+
+          <div>
+            <p className="text-white text-sm font-semibold mb-1">CNN v4 — Custom phase folded, 2-layer &nbsp;<span className="text-gray-600 font-normal text-xs">Result: 2 / 5 planets — 6 false positives</span></p>
+            <p>
+              Reducing back to a 2-layer architecture recovered the recall — CNN v4 found
+              2 of 5 planets, matching CNN v1. But the noisy phase-folded input introduced
+              a new problem: 6 false positives, double CNN v1's count. Imperfect period
+              estimates left artifacts in the folded curves that the model learned to treat
+              as planet signals. CNN v4 proves the preprocessing pipeline was the bottleneck,
+              not the architecture.
+            </p>
+          </div>
+
+          <div>
+            <p className="text-white text-sm font-semibold mb-1">CNN v1 — Raw normalized flux, 2-layer &nbsp;<span className="text-accent text-xs font-normal">Selected ✓ — 2 / 5 planets, 3 false positives</span></p>
+            <p>
+              CNN v1 skipped phase folding entirely, training directly on the raw Z-score
+              normalized 3,197-point flux sequence. No preprocessing step means no opportunity
+              for preprocessing errors to corrupt the signal. The 2-layer architecture was
+              exactly right for a 37-sample minority class: expressive enough to learn transit
+              shapes, constrained enough to avoid overfitting. It matched CNN v4's recall
+              while producing half the false alarms.
+            </p>
+          </div>
+        </div>
+
+        <p>
+          The core lesson: <strong className="text-white">simpler is not always worse.</strong> When
+          a training set has only 37 real examples of the target class, a modest architecture
+          that trusts the raw data often outperforms a sophisticated one that introduces
+          preprocessing steps with their own failure modes.
         </p>
         <p>
-          CNN v1, trained directly on raw normalized flux with no phase folding, found 2 out of
-          5 planets with 3 false positives. It offered the best recall of any model tested, it
-          is computationally simple, and it requires no phase-folding preprocessing at inference
-          time — making it straightforward to integrate into this application. The chosen model
-          is not necessarily the most sophisticated; it is the one that performed best on the
-          metric that matters most for this problem.
+          It is also important to emphasise that CNN v2, v3 and v4 are not failures.
+          Each one answered a specific question. The Random Forest baseline proved sequence
+          understanding is essential. The phase-folded CNNs proved that sophisticated
+          preprocessing can backfire on small datasets. CNN v4 isolated the architecture
+          variable from the preprocessing variable. Without this systematic progression,
+          there would be no principled basis for trusting CNN v1's result — it would just
+          be a lucky guess rather than the conclusion of a rigorous comparison.
         </p>
       </Section>
 
@@ -338,11 +438,15 @@ export default function HowItWorks() {
           quantized 13MB ONNX graph format.
         </p>
         <p>
-          When you click "Analyse This Star", your browser downloads this graph. A local WebAssembly 
-          engine (<code className="text-accent text-[11px] bg-accent/10 px-1 py-0.5 rounded-sm">onnxruntime-web</code>) parses the tensor and executes the neural network 
-          natively on your own device. The Python backend is stripped of all ML dependencies and is solely 
-          responsible for serving the raw CSV dataset. The actual prediction runs at zero server cost, 
-          with zero cold-start delay, using your local hardware.
+          When you click "Analyse This Star", your browser downloads this graph once and caches
+          it locally. A WebAssembly engine (<code className="text-accent text-[11px] bg-accent/10 px-1 py-0.5 rounded-sm">onnxruntime-web</code>) executes the neural
+          network natively on your device — no server round-trip, no latency, no cost.
+        </p>
+        <p>
+          The star dataset — all 570 Kepler test stars with their pre-computed flux arrays —
+          is stored as 570 individual static JSON files served by Vercel's global CDN. There
+          is no Python server running anywhere in this deployment. Every element of the
+          application, including the AI inference, runs entirely in your browser.
         </p>
       </Section>
 
