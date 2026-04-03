@@ -32,3 +32,12 @@ install.log
 # OS Files
 .DS_Store
 Thumbs.db
+
+cnn_model.h5
+X_test_norm.npy
+X_test_folded.npy
+X_test_slow_folded.npy
+y_test.npy
+conversion_done.txt
+*.h5
+*.npy
