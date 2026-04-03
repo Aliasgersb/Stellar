@@ -360,28 +360,23 @@ export default function HowItWorks() {
         <div className="border-l-2 border-border pl-5 space-y-6 my-2">
 
           <div>
-            <p className="text-white text-sm font-semibold mb-1">CNN v2 — BLS phase folded, 3-layer &nbsp;<span className="text-gray-600 font-normal text-xs">Result: 1 / 5 planets</span></p>
-            <p>
-              Phase folding is theoretically superior because it amplifies the transit signal.
-              But it requires knowing the planet's orbital period first. The BLS algorithm
-              estimates this period from noisy data — and when that estimate is even slightly
-              wrong, folding smears and destroys the transit trough instead of sharpening it.
-              On real Kepler data with few visible transits per star, period estimation errors
-              are common. Additionally, the 3-layer architecture increased the model's capacity,
-              but with only 37 real planet examples to train on, more capacity means more
-              overfitting to noise, not better generalisation.
-            </p>
-          </div>
-
-          <div>
-            <p className="text-white text-sm font-semibold mb-1">CNN v3 — Custom phase folded, 3-layer &nbsp;<span className="text-gray-600 font-normal text-xs">Result: 1 / 5 planets</span></p>
-            <p>
-              CNN v3 replaced the BLS period estimator with a custom algorithm. The hypothesis
-              was that a slower but more careful search would produce better period estimates.
-              In practice, the result was the same: 1 of 5 planets detected. The same two
-              failure modes applied — period estimation errors corrupting the phase-folded
-              input and a 3-layer architecture overfitting to the imbalanced signal.
-            </p>
+            <p className="text-white text-sm font-semibold mb-1">CNN v2 & v3 — Phase folded models &nbsp;<span className="text-gray-600 font-normal text-xs">Result: 1 / 5 planets</span></p>
+            <div className="space-y-4">
+              <p>
+                Phase folding is theoretically superior because it acts like stacking sliced paper: it places all transits exactly on top of each other to cancel noise and create one deep, clear dip. However, it requires an automated algorithm (like BLS) to mathematically guess the planet's exact orbital period first. On this specific dataset, both phase-folded models failed for two verified mathematical reasons:
+              </p>
+              <div className="pl-4 border-l border-border/50 space-y-3 pb-1 text-[0.95rem]">
+                <p>
+                  <strong className="text-gray-300 font-semibold">1. The 66-day Window constraint:</strong> The Kaggle dataset is chopped into 66-day snippets (3,197 measurements). An Earth-like planet takes 365 days to orbit, meaning it would transit at most <em>once</em> in this data. Algorithms require at least three transits to calculate a repeating period. If the orbit takes longer than ~22 days, automated mathematical folding is completely impossible.
+                </p>
+                <p>
+                  <strong className="text-gray-300 font-semibold">2. Harmonic Aliasing:</strong> Even for planets with short orbits that transit frequently (like Star 3), period-finding algorithms easily suffer from "aliasing." They get confused by the math and confidently select a multiple of the true period (e.g. guessing 16 days instead of 4). When folded over an incorrectly wide window, the cuts don't stack perfectly; instead, multiple jagged, messy dips are smeared side-by-side.
+                </p>
+              </div>
+              <p>
+                When the automated folding guessed the period incorrectly, it completely destroyed the transit shape, feeding corrupted data to both CNN v2 and CNN v3. This explains why they failed to detect planets that were visibly obvious to the human eye in the raw data.
+              </p>
+            </div>
           </div>
 
           <div>
